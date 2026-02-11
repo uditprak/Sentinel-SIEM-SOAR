@@ -38,7 +38,11 @@ Using KQL, I identified a massive brute-force escalation.
 * **Top Attacker Origin:** Vietnam / Romania.
 * **Tactic:** High-frequency dictionary attacks on the `Administrator` and `Test` accounts.
 
+### 📊 Attack Observation
+![Attack Spike](AttackByBot.png)
 
+### ⚡ Automation (Logic App)
+![Logic App Flow](Logic%20app%20succeed.png)
 
 ```kql
 // KQL to visualize the attack
