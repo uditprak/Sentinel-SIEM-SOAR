@@ -17,7 +17,7 @@ Sentin-Shield is a cloud-native Security Operations Center (SOC) project designe
 ![Architecture Diagram](Architecture-Diagram.png)
 
 🏗️ Architecture Breakdown
-Attack Ingress: The journey begins with automated botnets (primarily from Vietnam/Romania) targeting the Windows Honeypot via RDP (Port 3389).
+Attack Ingress: The journey begins with automated botnets (primarily from Vietnam/Chile) targeting the Windows Honeypot via RDP (Port 3389).
 
 Log Ingestion: Every failed login attempt is captured as a Security Event (Event ID 4625) and streamed in real-time to the Azure Log Analytics Workspace.
 
@@ -34,12 +34,15 @@ I deployed a Windows VM with an exposed RDP port to attract automated botnets. W
 
 ### Key Observation: The Vietnam Spike
 Using KQL, I identified a massive brute-force escalation.
-* **Total Attempts:** 310+ Failed Logons.
-* **Top Attacker Origin:** Vietnam / Romania.
+* **Total Attempts:** 400+ Failed Logons.
+* **Top Attacker Origin:** Vietnam / Chile.
 * **Tactic:** High-frequency dictionary attacks on the `Administrator` and `Test` accounts.
 
 ### 📊 Attack Observation
 ![Attack Spike](AttackByBot.png)
+
+### 📊 Log Record
+![WorkBook](WorkBook%20Log%20Count.png)
 
 ### ⚡ Automation (Logic App)
 ![Logic App Flow](Logic%20app%20succeed.png)
