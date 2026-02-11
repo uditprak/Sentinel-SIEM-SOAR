@@ -14,9 +14,18 @@ Sentin-Shield is a cloud-native Security Operations Center (SOC) project designe
 
 ---
 
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](Architecture-Diagram.png)
 
+🏗️ Architecture Breakdown
+Attack Ingress: The journey begins with automated botnets (primarily from Vietnam/Romania) targeting the Windows Honeypot via RDP (Port 3389).
 
+Log Ingestion: Every failed login attempt is captured as a Security Event (Event ID 4625) and streamed in real-time to the Azure Log Analytics Workspace.
+
+Threat Detection: Microsoft Sentinel monitors these logs using a custom KQL (Kusto Query Language) analytics rule. If an IP exceeds 50 failed attempts within 5 minutes, a High-Severity Incident is triggered.
+
+SOAR Automation: Upon incident creation, a Logic App (Playbook) is automatically invoked. It extracts the malicious IP Entity from the alert metadata.
+
+Automated Remediation: The Logic App pushes a command to the Network Security Group (NSG) to create a high-priority "DENY" rule for that specific IP, effectively neutralizing the threat without human intervention.
 
 ---
 
