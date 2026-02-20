@@ -11,7 +11,6 @@ Sentin-Shield is a cloud-native Security Operations Center (SOC) project designe
 * **Query Language:** KQL (Kusto Query Language)
 * **Threat Intel:** Shodan, IP Reputation DBs
 
-
 ---
 
 ![Architecture Diagram](Architecture-Diagram.png)
