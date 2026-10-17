@@ -1,0 +1,7 @@
+// Hunting query: where are the failed RDP logons coming from?
+// Result in this lab (24h): Vietnam 489, Chile 18, Netherlands 5, India 4, Hong Kong 1, Romania 1, Belgium 1
+SecurityEvent
+| where EventID == 4625
+| extend Country = tostring(geo_info_from_ip_address(IpAddress).country)
+| summarize AttemptCount = count() by Country
+| sort by AttemptCount desc

@@ -1,0 +1,9 @@
+// Hunting query: which source IPs tried which account names?
+// Shows dictionary-style guessing (user, user1, scanner, pc, test, administrator, admin)
+SecurityEvent
+| where EventID == 4625
+| extend Location = geo_info_from_ip_address(IpAddress)
+| extend Country = tostring(Location.country)
+| where isnotempty(Country)
+| summarize AttemptCount = count() by Country, IpAddress, TargetUserName
+| sort by AttemptCount desc

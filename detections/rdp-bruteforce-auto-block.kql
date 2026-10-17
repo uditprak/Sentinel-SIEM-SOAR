@@ -1,0 +1,11 @@
+// Analytics rule: Auto-Block Brute Force
+// Source: SecurityEvent (Windows honeypot VM -> Log Analytics -> Microsoft Sentinel)
+// Schedule: runs every 5 minutes, looks back over the last 1 hour
+// Alert threshold: query returns > 0 results (i.e. any IP above 50 failures)
+// Severity: High | MITRE ATT&CK: Credential Access - T1110 (Brute Force)
+// Entity mapping: IP -> Address = IpAddress
+SecurityEvent
+| where EventID == 4625                      // failed logon
+| summarize FailedCount = count() by IpAddress
+| where FailedCount > 50
+| extend IPCustomEntity = IpAddress

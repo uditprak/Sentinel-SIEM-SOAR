@@ -1,0 +1,15 @@
+// Hunting query: did any brute-forcing IP later log on successfully?
+// Joins failed logons (4625) with successful logons (4624) from the same source IP.
+// Any result here should be treated as a possible compromise and investigated first.
+let lookback = 24h;
+let failures = SecurityEvent
+    | where TimeGenerated > ago(lookback) and EventID == 4625
+    | summarize FailedCount = count(), FirstFail = min(TimeGenerated), LastFail = max(TimeGenerated) by IpAddress
+    | where FailedCount > 10;
+SecurityEvent
+| where TimeGenerated > ago(lookback) and EventID == 4624
+| where LogonType in (3, 10)                 // network / RemoteInteractive (RDP)
+| join kind=inner failures on IpAddress
+| where TimeGenerated > FirstFail
+| project TimeGenerated, IpAddress, TargetUserName, LogonType, FailedCount, FirstFail, LastFail, Computer
+| sort by TimeGenerated desc
